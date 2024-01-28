@@ -152,7 +152,7 @@ async function getSettings() {
     targets,
     decompressTarget,
     followSymbolicLinks,
-    command,
+    send_command,
   };
 }
 
