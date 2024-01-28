@@ -36,6 +36,10 @@ inputs:
   follow-symbolic-links:
     description: "Indicates whether to follow symbolic links"
     default: true
+  send-command:
+    description: "Send a command to the servers after the upload"
+    required: false
+    default: false
 runs:
   using: "node16"
   main: "dist/index.js"

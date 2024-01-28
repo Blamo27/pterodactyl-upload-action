@@ -20,6 +20,7 @@ async function main() {
       restart,
       targets,
       decompressTarget,
+      sendCommand,
     } = settings;
 
     let fileSourcePaths = [];
@@ -68,6 +69,7 @@ async function main() {
         }
       }
 
+      if (sendCommand) await sendCommand(serverId, sendCommand);
       if (restart) await restartServer(serverId);
     }
 
@@ -84,6 +86,7 @@ async function getSettings() {
   const proxy = getInput("proxy");
   const decompressTarget = getInput("decompress-target") == "true";
   const followSymbolicLinks = getInput("follow-symbolic-links") == "true";
+  const sendCommand = getInput("send-command");
 
   let sourcePath = getInput("source");
   let sourceListPath = getMultilineInput("sources");
@@ -98,6 +101,7 @@ async function getSettings() {
   core.debug(`target: ${targetPath}`);
   core.debug(`server-id: ${serverIdInput}`);
   core.debug(`server-ids: ${serverIds}`);
+  core.debug(`send-command: ${sendCommand}`);
 
   const config = await readConfigFile();
 
@@ -148,6 +152,7 @@ async function getSettings() {
     targets,
     decompressTarget,
     followSymbolicLinks,
+    sendCommand,
   };
 }
 
@@ -250,6 +255,12 @@ async function uploadFile(serverId, targetFile, buffer) {
 async function restartServer(serverId) {
   await axios.post(`/api/client/servers/${serverId}/power`, {
     signal: "restart",
+  });
+}
+
+async function sendCommand(serverId, command) {
+  await axios.post(`/api/client/servers/${serverId}/command`, {
+    command,
   });
 }
 
