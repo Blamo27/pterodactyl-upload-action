@@ -13126,7 +13126,7 @@ async function main() {
       restart,
       targets,
       decompressTarget,
-      sendCommand,
+      send_command,
     } = settings;
 
     let fileSourcePaths = [];
@@ -13175,7 +13175,7 @@ async function main() {
         }
       }
 
-      if (sendCommand) await sendCommand(serverId, sendCommand);
+      if (send_command) await sendCommand(serverId, send_command);
       if (restart) await restartServer(serverId);
     }
 
@@ -13192,7 +13192,7 @@ async function getSettings() {
   const proxy = getInput("proxy");
   const decompressTarget = getInput("decompress-target") == "true";
   const followSymbolicLinks = getInput("follow-symbolic-links") == "true";
-  const sendCommand = getInput("send-command");
+  const send_command = getInput("send-command");
 
   let sourcePath = getInput("source");
   let sourceListPath = getMultilineInput("sources");
@@ -13207,7 +13207,7 @@ async function getSettings() {
   core.debug(`target: ${targetPath}`);
   core.debug(`server-id: ${serverIdInput}`);
   core.debug(`server-ids: ${serverIds}`);
-  core.debug(`send-command: ${sendCommand}`);
+  core.debug(`send-command: ${send_command}`);
 
   const config = await readConfigFile();
 
@@ -13258,7 +13258,7 @@ async function getSettings() {
     targets,
     decompressTarget,
     followSymbolicLinks,
-    sendCommand,
+    command,
   };
 }
 
